@@ -13,5 +13,4 @@ def test_round_robin_scheduler():
     scheduler = RoundRobinScheduler(quantum=2)
     gantt = scheduler.planificar(procesos)
     assert gantt == [("p1", 0, 2), ("p2", 2, 4), ("p1", 4, 6), ("p2", 6, 7)]
-
     
