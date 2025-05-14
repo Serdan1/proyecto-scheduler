@@ -1,6 +1,7 @@
 import pytest
 from src.proceso import Proceso
-from src.scheduler import FCFSScheduler, RoundRobinScheduler
+from src.algoritmoFCFS import FCFSScheduler
+from src.algoritmoRound_Robin import RoundRobinScheduler  # Cambiado de algoritmoRound-Robin a algoritmoRound_Robin
 
 def test_fcfs_scheduler():
     procesos = [Proceso("p1", 3, 1), Proceso("p2", 2, 2)]
