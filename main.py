@@ -7,6 +7,7 @@ from src.metrics import Metricas
 def main():
     """Interfaz CLI para gestionar procesos y planificar."""
     repo = RepositorioProcesos()
+
     while True:
         print("\n1. Agregar proceso")
         print("2. Listar procesos")
@@ -18,6 +19,7 @@ def main():
         print("8. Cargar (CSV)")
         print("9. Salir")
         opcion = input("Seleccione una opción: ")
+        print(f"DEBUG: Opción ingresada: '{opcion}'", flush=True)
 
         if opcion == '1':
             pid = input("PID: ")
@@ -30,41 +32,67 @@ def main():
                 print(f"Error: {e}")
 
         elif opcion == '2':
-            print("DEBUG: Entrando en la opción 2 (Listar procesos)")  # Mensaje de depuración
+            print("DEBUG: Entrando en la opción 2 (Listar procesos)", flush=True)
             procesos = repo.listar()
-            print(f"DEBUG: Número de procesos encontrados: {len(procesos)}")  # Ver cuántos procesos hay
+            print(f"DEBUG: Número de procesos encontrados: {len(procesos)}", flush=True)
             if not procesos:
-                print("No hay procesos registrados.")
+                print("No hay procesos registrados.", flush=True)
             else:
                 for p in procesos:
                     print(f"PID: {p.pid}, Duración: {p.duracion}, Prioridad: {p.prioridad}, "
-                        f"Tiempo Llegada: {p.tiempo_llegada}, Tiempo Restante: {p.tiempo_restante}, "
-                        f"Tiempo Inicio: {p.tiempo_inicio}, Tiempo Fin: {p.tiempo_fin}")
+                          f"Tiempo Llegada: {p.tiempo_llegada}, Tiempo Restante: {p.tiempo_restante}, "
+                          f"Tiempo Inicio: {p.tiempo_inicio}, Tiempo Fin: {p.tiempo_fin}", flush=True)
 
         elif opcion == '3':
-            scheduler = FCFSScheduler()
-            gantt = scheduler.planificar(repo.listar())
-            print("Diagrama de Gantt:", gantt)
-            metricas = Metricas.calcular_metricas(repo.listar(), gantt)
-            print("Métricas:", metricas)
+            print("DEBUG: Entrando en la opción 3 (Planificar FCFS)", flush=True)
+            procesos = repo.listar()
+            if not procesos:
+                print("No hay procesos para planificar.", flush=True)
+            else:
+                scheduler = FCFSScheduler()
+                gantt = scheduler.planificar(procesos)
+                print("Diagrama de Gantt:", gantt)
+                metricas = Metricas.calcular_metricas(procesos, gantt)
+                print("Métricas:", metricas)
 
         elif opcion == '4':
-            quantum = int(input("Quantum: "))
-            scheduler = RoundRobinScheduler(quantum)
-            gantt = scheduler.planificar(repo.listar())
-            print("Diagrama de Gantt:", gantt)
-            metricas = Metricas.calcular_metricas(repo.listar(), gantt)
-            print("Métricas:", metricas)
+            print("DEBUG: Entrando en la opción 4 (Planificar Round-Robin)", flush=True)
+            procesos = repo.listar()
+            if not procesos:
+                print("No hay procesos para planificar.", flush=True)
+            else:
+                quantum = int(input("Quantum: "))
+                scheduler = RoundRobinScheduler(quantum)
+                gantt = scheduler.planificar(procesos)
+                print("Diagrama de Gantt:", gantt)
+                metricas = Metricas.calcular_metricas(procesos, gantt)
+                print("Métricas:", metricas)
 
         elif opcion == '5':
-            archivo = input("Nombre del archivo JSON: ")
-            repo.guardar_json(archivo)
-            print("Guardado en JSON.")
+            nombre_archivo = input("Nombre del archivo JSON (sin extensión): ")
+            repo.guardar_json(nombre_archivo)
+            print(f"Guardado en data/{nombre_archivo}.json")
 
         elif opcion == '6':
-            archivo = input("Nombre del archivo JSON: ")
-            repo.cargar_json(archivo)
-            print("Cargado desde JSON.")
+            print("DEBUG: Entrando en la opción 6 (Cargar JSON)", flush=True)
+            # Listar archivos JSON disponibles en la carpeta data/
+            archivos_json = repo.listar_archivos_json()
+            if not archivos_json:
+                print("No hay archivos JSON en la carpeta data/.", flush=True)
+            else:
+                print("Archivos JSON disponibles:")
+                for i, archivo in enumerate(archivos_json, 1):
+                    print(f"{i}. {archivo}")
+                seleccion = int(input("Seleccione el número del archivo a cargar: "))
+                if 1 <= seleccion <= len(archivos_json):
+                    nombre_archivo = archivos_json[seleccion - 1]
+                    try:
+                        repo.cargar_json(nombre_archivo)
+                        print(f"Cargado desde data/{nombre_archivo}")
+                    except Exception as e:
+                        print(f"Error al cargar el archivo: {e}")
+                else:
+                    print("Selección inválida.")
 
         elif opcion == '7':
             archivo = input("Nombre del archivo CSV: ")
@@ -81,4 +109,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+    
