@@ -23,5 +23,4 @@ def test_guardar_cargar_json(repo):
     nuevo_repo.cargar_json("test.json")
     assert len(nuevo_repo.listar()) == 1
     os.remove("test.json")
-
     
