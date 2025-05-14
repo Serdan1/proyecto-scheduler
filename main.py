@@ -30,8 +30,12 @@ def main():
                 print(f"Error: {e}")
 
         elif opcion == '2':
-            for p in repo.listar():
-                print(f"PID: {p.pid}, Duración: {p.duracion}, Prioridad: {p.prioridad}")
+            procesos = repo.listar()
+            if not procesos:
+                print("No hay procesos registrados.")
+            else:
+                for p in procesos:
+                    print(f"PID: {p.pid}, Duración: {p.duracion}, Prioridad: {p.prioridad}")
 
         elif opcion == '3':
             scheduler = FCFSScheduler()
