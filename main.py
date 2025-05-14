@@ -1,6 +1,7 @@
 from src.repositorio import RepositorioProcesos
 from src.proceso import Proceso
-from src.scheduler import FCFSScheduler, RoundRobinScheduler
+from src.algoritmoFCFS import FCFSScheduler
+from src.algoritmoRound-Robin import RoundRobinScheduler
 from src.metrics import Metricas
 
 def main():
