@@ -83,16 +83,22 @@ def main():
                 print("Archivos JSON disponibles:")
                 for i, archivo in enumerate(archivos_json, 1):
                     print(f"{i}. {archivo}")
-                seleccion = int(input("Seleccione el número del archivo a cargar: "))
-                if 1 <= seleccion <= len(archivos_json):
-                    nombre_archivo = archivos_json[seleccion - 1]
-                    try:
+                try:
+                    seleccion = int(input("Seleccione el número del archivo a cargar: "))
+                    if 1 <= seleccion <= len(archivos_json):
+                        nombre_archivo = archivos_json[seleccion - 1]
+                        print(f"DEBUG: Intentando cargar el archivo {nombre_archivo}", flush=True)
                         repo.cargar_json(nombre_archivo)
-                        print(f"Cargado desde data/{nombre_archivo}")
-                    except Exception as e:
-                        print(f"Error al cargar el archivo: {e}")
-                else:
-                    print("Selección inválida.")
+                        print(f"Cargado desde data/{nombre_archivo}", flush=True)
+                        # Confirmar que los procesos se cargaron
+                        procesos_cargados = repo.listar()
+                        print(f"DEBUG: Procesos cargados: {len(procesos_cargados)}", flush=True)
+                    else:
+                        print("Selección inválida.", flush=True)
+                except ValueError:
+                    print("Error: Por favor ingrese un número válido.", flush=True)
+                except Exception as e:
+                    print(f"Error al cargar el archivo: {e}", flush=True)
 
         elif opcion == '7':
             archivo = input("Nombre del archivo CSV: ")

@@ -18,7 +18,7 @@ class RepositorioProcesos:
 
     def listar(self) -> List[Proceso]:
         """Devuelve la lista de procesos."""
-        print(f"DEBUG: Dentro de RepositorioProcesos.listar(), self.procesos = {self.procesos}")
+        print(f"DEBUG: Dentro de RepositorioProcesos.listar(), self.procesos = {self.procesos}", flush=True)
         return self.procesos
 
     def eliminar(self, pid: str) -> None:
@@ -66,8 +66,13 @@ class RepositorioProcesos:
         if not nombre_archivo.endswith('.json'):
             ruta_archivo += '.json'
 
+        print(f"DEBUG: Abriendo el archivo {ruta_archivo}", flush=True)
+        print(f"DEBUG: Ruta absoluta del archivo: {os.path.abspath(ruta_archivo)}", flush=True)
+        if not os.path.exists(ruta_archivo):
+            raise FileNotFoundError(f"El archivo {ruta_archivo} no existe.")
         with open(ruta_archivo, 'r') as f:
             datos = json.load(f)
+            print(f"DEBUG: Datos cargados del JSON: {datos}", flush=True)
             self.procesos = []
             for d in datos:
                 # Proporcionamos valores por defecto para atributos faltantes
@@ -81,12 +86,22 @@ class RepositorioProcesos:
                     tiempo_fin=d.get('tiempo_fin', None)
                 )
                 self.procesos.append(proceso)
+            print(f"DEBUG: Procesos después de cargar: {self.procesos}", flush=True)
 
     def listar_archivos_json(self) -> List[str]:
         """Devuelve una lista de archivos JSON en la carpeta data/."""
+        print(f"DEBUG: Buscando archivos en la carpeta {self.data_dir}", flush=True)
+        print(f"DEBUG: Ruta absoluta de data/: {os.path.abspath(self.data_dir)}", flush=True)
         if not os.path.exists(self.data_dir):
+            print(f"DEBUG: La carpeta {self.data_dir} no existe.", flush=True)
             return []
-        return [f for f in os.listdir(self.data_dir) if f.endswith('.json')]
+        try:
+            archivos = [f for f in os.listdir(self.data_dir) if f.endswith('.json')]
+            print(f"DEBUG: Archivos JSON encontrados: {archivos}", flush=True)
+            return archivos
+        except Exception as e:
+            print(f"DEBUG: Error al listar archivos: {e}", flush=True)
+            return []
 
     def guardar_csv(self, archivo: str) -> None:
         """Guarda los procesos en un archivo CSV."""
