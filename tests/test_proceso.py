@@ -15,5 +15,4 @@ def test_proceso_pid_invalido():
 def test_proceso_duracion_invalida():
     with pytest.raises(ValueError):
         Proceso("p1", 0, 1)
-
         
