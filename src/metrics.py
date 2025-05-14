@@ -25,3 +25,4 @@ class Metricas:
             'espera_promedio': sum(tiempos_espera) / len(tiempos_espera) if tiempos_espera else 0,
             'retorno_promedio': sum(tiempos_retorno) / len(tiempos_retorno) if tiempos_retorno else 0
         }
+    
