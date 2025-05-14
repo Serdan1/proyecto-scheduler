@@ -1,6 +1,6 @@
 from typing import List, Tuple
-from proceso import Proceso
-from scheduler import GanttEntry
+from .proceso import Proceso
+from .scheduler import GanttEntry
 
 class Metricas:
     """Calcula métricas de planificación basadas en el diagrama de Gantt."""
@@ -25,6 +25,3 @@ class Metricas:
             'espera_promedio': sum(tiempos_espera) / len(tiempos_espera) if tiempos_espera else 0,
             'retorno_promedio': sum(tiempos_retorno) / len(tiempos_retorno) if tiempos_retorno else 0
         }
-    
-
-    
