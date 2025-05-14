@@ -1,7 +1,7 @@
 import json
 import csv
 from typing import List, Optional
-from proceso import Proceso
+from .proceso import Proceso
 
 class RepositorioProcesos:
     """Gestiona el conjunto de procesos con persistencia en JSON/CSV."""
@@ -61,6 +61,4 @@ class RepositorioProcesos:
                     tiempo_llegada=int(row['tiempo_llegada'])
                 )
                 self.procesos.append(proceso)
-
-
-                
+            
