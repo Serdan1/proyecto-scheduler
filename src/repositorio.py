@@ -8,7 +8,9 @@ class RepositorioProcesos:
     """Gestiona el conjunto de procesos con persistencia en JSON/CSV."""
     def __init__(self):
         self.procesos: List[Proceso] = []
-        self.data_dir = "data"  # Carpeta donde se guardarán los archivos
+        # Usar una ruta absoluta para la carpeta data/
+        # La carpeta data/ estará en el directorio raíz del proyecto
+        self.data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
 
     def agregar(self, proceso: Proceso) -> None:
         """Agrega un proceso, verifica unicidad de PID."""
