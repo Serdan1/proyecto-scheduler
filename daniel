@@ -1,0 +1,20 @@
+[
+  {
+    "pid": "2589",
+    "duracion": 45,
+    "prioridad": 1,
+    "tiempo_llegada": 0,
+    "tiempo_restante": 45,
+    "tiempo_inicio": 0,
+    "tiempo_fin": 45
+  },
+  {
+    "pid": "245",
+    "duracion": 45,
+    "prioridad": 6,
+    "tiempo_llegada": 0,
+    "tiempo_restante": 45,
+    "tiempo_inicio": 45,
+    "tiempo_fin": 90
+  }
+]
