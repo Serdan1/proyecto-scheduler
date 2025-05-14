@@ -1,27 +1,24 @@
-# proyecto-scheduler
-
-https://github.com/Serdan1/proyecto-scheduler.git
-
-
 # Proyecto Scheduler
 
-Este proyecto implementa un simulador de planificación de procesos para un sistema operativo, desarrollado en Python utilizando programación orientada a objetos. El programa permite gestionar procesos, planificar su ejecución con algoritmos como FCFS (First-Come, First-Served) y Round-Robin, calcular métricas de rendimiento, y persistir los datos en archivos JSON y CSV. Incluye pruebas unitarias y una estructura profesional del proyecto.
+Este proyecto implementa un simulador de planificación de procesos para un sistema operativo, desarrollado en Python utilizando programación orientada a objetos. El programa permite gestionar procesos, planificar su ejecución con algoritmos como FCFS (First-Come, First-Served) y Round-Robin, calcular métricas de rendimiento, y persistir los datos en archivos JSON. Originalmente diseñado con una interfaz de línea de comandos (CLI), ahora incluye una interfaz gráfica (GUI) desarrollada con Tkinter para una interacción más visual e intuitiva. También cuenta con pruebas unitarias y una estructura profesional del proyecto.
 
 ## Descripción
 
 El proyecto modela un entorno simplificado de un sistema operativo donde se pueden:
-- Registrar y gestionar procesos con atributos como PID, duración y prioridad.
+- Registrar y gestionar procesos con atributos como PID, duración, prioridad, tiempo de llegada, tiempo restante, tiempo de inicio y tiempo de fin.
 - Planificar la ejecución de procesos usando algoritmos FCFS y Round-Robin.
 - Generar un diagrama de Gantt y calcular métricas (tiempo de respuesta, espera y retorno promedio).
-- Guardar y cargar procesos desde archivos JSON y CSV.
-- Ejecutar pruebas unitarias para verificar el funcionamiento.
+- Guardar y cargar procesos desde archivos JSON almacenados en la carpeta `data/`.
+- Analizar datos cargados desde archivos JSON mediante una interfaz gráfica.
 
-El programa incluye una interfaz CLI (línea de comandos) para interactuar con las funcionalidades.
+El programa utiliza una interfaz gráfica (GUI) desarrollada con Tkinter, permitiendo una interacción más amigable con las mismas funcionalidades.
 
 ## Requisitos
 
 - Python 3.8 o superior
-- Dependencias listadas en `requirements.txt` (principalmente `pytest` para las pruebas)
+- Dependencias listadas en `requirements.txt`:
+  - `pytest>=7.0.0` (para ejecutar pruebas unitarias)
+- Tkinter (incluido con Python por defecto)
 
 ## Instalación
 
@@ -30,15 +27,16 @@ El programa incluye una interfaz CLI (línea de comandos) para interactuar con l
    git clone https://github.com/Serdan1/proyecto-scheduler.git
    cd proyecto-scheduler
 
-2. Instala las dependencias:
-pip install -r requirements.txt
-
-
 ## Uso
+
+Ejecución del programa
+Asegúrate de que el entorno virtual esté activado (si lo creaste).
 
 Ejecuta el programa principal:
 
 python main.py
+
+
 
 ## Diagrama de flujo: Cargar, listar y planificar procesos
 
