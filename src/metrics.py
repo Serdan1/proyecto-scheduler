@@ -11,10 +11,22 @@ class Metricas:
         tiempos_espera = []
         tiempos_retorno = []
 
+        # Crear un diccionario para mapear PID a proceso
+        pid_to_proceso = {p.pid: p for p in procesos}
+
+        # Calcular tiempos de espera usando el diagrama de Gantt
+        tiempos_espera_procesos = {p.pid: 0 for p in procesos}
+        tiempos_ultima_ejecucion = {p.pid: p.tiempo_llegada for p in procesos}
+
+        for i, (pid, inicio, fin) in enumerate(gantt):
+            espera = inicio - tiempos_ultima_ejecucion[pid]
+            tiempos_espera_procesos[pid] += espera
+            tiempos_ultima_ejecucion[pid] = fin
+
         for proceso in procesos:
             tiempo_respuesta = proceso.tiempo_inicio - proceso.tiempo_llegada
             tiempo_retorno = proceso.tiempo_fin - proceso.tiempo_llegada
-            tiempo_espera = tiempo_retorno - proceso.duracion
+            tiempo_espera = tiempos_espera_procesos[proceso.pid]
 
             tiempos_respuesta.append(tiempo_respuesta)
             tiempos_espera.append(tiempo_espera)
