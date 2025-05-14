@@ -1,5 +1,6 @@
 import json
 import csv
+import os
 from typing import List, Optional
 from .proceso import Proceso
 
@@ -7,6 +8,7 @@ class RepositorioProcesos:
     """Gestiona el conjunto de procesos con persistencia en JSON/CSV."""
     def __init__(self):
         self.procesos: List[Proceso] = []
+        self.data_dir = "data"  # Carpeta donde se guardarán los archivos
 
     def agregar(self, proceso: Proceso) -> None:
         """Agrega un proceso, verifica unicidad de PID."""
@@ -16,6 +18,7 @@ class RepositorioProcesos:
 
     def listar(self) -> List[Proceso]:
         """Devuelve la lista de procesos."""
+        print(f"DEBUG: Dentro de RepositorioProcesos.listar(), self.procesos = {self.procesos}")
         return self.procesos
 
     def eliminar(self, pid: str) -> None:
@@ -29,8 +32,17 @@ class RepositorioProcesos:
                 return proceso
         return None
 
-    def guardar_json(self, archivo: str) -> None:
-        """Guarda los procesos en un archivo JSON, incluyendo todos los atributos."""
+    def guardar_json(self, nombre_archivo: str) -> None:
+        """Guarda los procesos en un archivo JSON en la carpeta data/, incluyendo todos los atributos."""
+        # Asegurarse de que la carpeta data/ exista
+        if not os.path.exists(self.data_dir):
+            os.makedirs(self.data_dir)
+
+        # Construir la ruta completa del archivo
+        ruta_archivo = os.path.join(self.data_dir, nombre_archivo)
+        if not nombre_archivo.endswith('.json'):
+            ruta_archivo += '.json'
+
         # Serializamos explícitamente todos los atributos
         procesos_dict = [
             {
@@ -44,12 +56,17 @@ class RepositorioProcesos:
             }
             for p in self.procesos
         ]
-        with open(archivo, 'w') as f:
+        with open(ruta_archivo, 'w') as f:
             json.dump(procesos_dict, f, indent=2)
 
-    def cargar_json(self, archivo: str) -> None:
-        """Carga procesos desde un archivo JSON y maneja atributos faltantes."""
-        with open(archivo, 'r') as f:
+    def cargar_json(self, nombre_archivo: str) -> None:
+        """Carga procesos desde un archivo JSON en la carpeta data/ y maneja atributos faltantes."""
+        # Construir la ruta completa del archivo
+        ruta_archivo = os.path.join(self.data_dir, nombre_archivo)
+        if not nombre_archivo.endswith('.json'):
+            ruta_archivo += '.json'
+
+        with open(ruta_archivo, 'r') as f:
             datos = json.load(f)
             self.procesos = []
             for d in datos:
@@ -64,6 +81,12 @@ class RepositorioProcesos:
                     tiempo_fin=d.get('tiempo_fin', None)
                 )
                 self.procesos.append(proceso)
+
+    def listar_archivos_json(self) -> List[str]:
+        """Devuelve una lista de archivos JSON en la carpeta data/."""
+        if not os.path.exists(self.data_dir):
+            return []
+        return [f for f in os.listdir(self.data_dir) if f.endswith('.json')]
 
     def guardar_csv(self, archivo: str) -> None:
         """Guarda los procesos en un archivo CSV."""
