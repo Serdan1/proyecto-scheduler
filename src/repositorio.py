@@ -30,15 +30,40 @@ class RepositorioProcesos:
         return None
 
     def guardar_json(self, archivo: str) -> None:
-        """Guarda los procesos en un archivo JSON."""
+        """Guarda los procesos en un archivo JSON, incluyendo todos los atributos."""
+        # Serializamos explícitamente todos los atributos
+        procesos_dict = [
+            {
+                "pid": p.pid,
+                "duracion": p.duracion,
+                "prioridad": p.prioridad,
+                "tiempo_llegada": p.tiempo_llegada,
+                "tiempo_restante": p.tiempo_restante,
+                "tiempo_inicio": p.tiempo_inicio,
+                "tiempo_fin": p.tiempo_fin
+            }
+            for p in self.procesos
+        ]
         with open(archivo, 'w') as f:
-            json.dump([p.__dict__ for p in self.procesos], f, indent=2)
+            json.dump(procesos_dict, f, indent=2)
 
     def cargar_json(self, archivo: str) -> None:
-        """Carga procesos desde un archivo JSON."""
+        """Carga procesos desde un archivo JSON y maneja atributos faltantes."""
         with open(archivo, 'r') as f:
             datos = json.load(f)
-            self.procesos = [Proceso(**d) for d in datos]
+            self.procesos = []
+            for d in datos:
+                # Proporcionamos valores por defecto para atributos faltantes
+                proceso = Proceso(
+                    pid=d['pid'],
+                    duracion=d['duracion'],
+                    prioridad=d['prioridad'],
+                    tiempo_llegada=d.get('tiempo_llegada', 0),
+                    tiempo_restante=d.get('tiempo_restante', d['duracion']),  # Si falta, usar duracion
+                    tiempo_inicio=d.get('tiempo_inicio', None),
+                    tiempo_fin=d.get('tiempo_fin', None)
+                )
+                self.procesos.append(proceso)
 
     def guardar_csv(self, archivo: str) -> None:
         """Guarda los procesos en un archivo CSV."""
@@ -61,4 +86,4 @@ class RepositorioProcesos:
                     tiempo_llegada=int(row['tiempo_llegada'])
                 )
                 self.procesos.append(proceso)
-            
+                
