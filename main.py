@@ -30,12 +30,16 @@ def main():
                 print(f"Error: {e}")
 
         elif opcion == '2':
+            print("DEBUG: Entrando en la opción 2 (Listar procesos)")  # Mensaje de depuración
             procesos = repo.listar()
+            print(f"DEBUG: Número de procesos encontrados: {len(procesos)}")  # Ver cuántos procesos hay
             if not procesos:
                 print("No hay procesos registrados.")
             else:
                 for p in procesos:
-                    print(f"PID: {p.pid}, Duración: {p.duracion}, Prioridad: {p.prioridad}")
+                    print(f"PID: {p.pid}, Duración: {p.duracion}, Prioridad: {p.prioridad}, "
+                        f"Tiempo Llegada: {p.tiempo_llegada}, Tiempo Restante: {p.tiempo_restante}, "
+                        f"Tiempo Inicio: {p.tiempo_inicio}, Tiempo Fin: {p.tiempo_fin}")
 
         elif opcion == '3':
             scheduler = FCFSScheduler()
