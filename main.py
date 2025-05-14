@@ -1,7 +1,7 @@
-from repositorio import RepositorioProcesos
-from proceso import Proceso
-from scheduler import FCFSScheduler, RoundRobinScheduler
-from metrics import Metricas
+from src.repositorio import RepositorioProcesos
+from src.proceso import Proceso
+from src.scheduler import FCFSScheduler, RoundRobinScheduler
+from src.metrics import Metricas
 
 def main():
     """Interfaz CLI para gestionar procesos y planificar."""
