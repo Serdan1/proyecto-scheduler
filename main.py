@@ -1,7 +1,7 @@
 from src.repositorio import RepositorioProcesos
 from src.proceso import Proceso
 from src.algoritmoFCFS import FCFSScheduler
-from src.algoritmoRound-Robin import RoundRobinScheduler
+from src.algoritmoRound_Robin import RoundRobinScheduler
 from src.metrics import Metricas
 
 def main():
@@ -74,4 +74,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-    
